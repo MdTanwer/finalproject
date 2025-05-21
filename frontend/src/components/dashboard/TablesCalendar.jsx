@@ -2,7 +2,7 @@ import "../../styles/components/dashboard/TablesCalendar.css";
 
 const TablesCalendar = () => {
   // 35 tables, numbered 1-35 for a 7x5 grid, filled horizontally
-  const rows = 5;
+  const rows = 3;
   const cols = 7;
   const tableNumbers = [];
   for (let row = 0; row < rows; row++) {
@@ -12,7 +12,7 @@ const TablesCalendar = () => {
   }
 
   // Reserved tables (green) - example data, adjust as needed
-  const reservedTables = [4, 5, 7, 9, 12, 17, 21, 22, 23, 29, 30];
+  const reservedTables = [4, 5, 7, 9, 12, 17, 21, 22];
 
   return (
     <div className="tables-calendar">

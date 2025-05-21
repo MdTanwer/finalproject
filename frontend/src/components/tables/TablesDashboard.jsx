@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { FaTrashAlt, FaChair } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 
-const API_URL = "http://localhost:5000/api/tables";
+const API_URL = "https://finalproject-twn3.onrender.com/api/tables";
 
 const TablesDashboard = () => {
   const [tables, setTables] = useState([]);
