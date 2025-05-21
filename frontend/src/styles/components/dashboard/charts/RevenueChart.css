@@ -1,0 +1,131 @@
+.revenue-chart {
+  background-color: #f5faf8;
+  border-radius: 18px;
+  padding: 32px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid #e6ecea;
+  font-family: "Inter", sans-serif;
+  opacity: 1;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.chart-desc {
+  font-size: 13px;
+  color: #8a8a8a;
+  margin-top: 2px;
+}
+
+.chart-period {
+  font-size: 13px;
+  color: #8a8a8a;
+  background: #fff;
+  border-radius: 16px;
+  padding: 4px 16px;
+  border: 1px solid #e6ecea;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chart-period-arrow {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.chart-divider {
+  border-bottom: 1px solid #e6ecea;
+  margin: 16px 0 24px 0;
+}
+
+.revenue-chart-area {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #e6ecea;
+  padding: 18px 12px 0 12px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chart.js container override */
+.revenue-chart-area canvas {
+  background: transparent !important;
+  border-radius: 16px;
+}
+
+.chart-container {
+  height: 160px;
+  position: relative;
+}
+
+.chart-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.chart-filter select {
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #4a5568;
+  cursor: pointer;
+  outline: none;
+}
+
+.chart-filter select:focus {
+  border-color: #4299e1;
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+.chart-placeholder {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 90%;
+}
+
+.chart-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  padding: 0 4px;
+}
+
+.chart-bar {
+  width: 100%;
+  max-width: 40px;
+  background-color: var(--primary-color);
+  border-radius: 4px 4px 0 0;
+}
+
+.chart-label {
+  margin-top: 8px;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}

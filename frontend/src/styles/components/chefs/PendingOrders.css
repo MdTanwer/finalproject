@@ -1,0 +1,96 @@
+.pending-orders {
+  background-color: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  margin-bottom: 0;
+}
+
+.assignment-info {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 12px;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.no-chef-selected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background-color: var(--bg-accent);
+  border-radius: var(--border-radius);
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: center;
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.order-card {
+  background-color: var(--bg-accent);
+  border-radius: var(--border-radius);
+  padding: 16px;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.order-id {
+  font-weight: 600;
+}
+
+.order-time {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.order-table {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.order-items-list {
+  margin: 0 0 16px 0;
+  padding-left: 20px;
+}
+
+.order-item {
+  font-size: var(--font-size-sm);
+  margin-bottom: 4px;
+}
+
+.assign-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.assign-btn:hover {
+  background-color: var(--primary-dark);
+}

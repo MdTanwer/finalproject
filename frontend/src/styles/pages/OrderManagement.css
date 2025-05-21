@@ -1,0 +1,162 @@
+.order-management-page {
+  padding: 10px;
+}
+.item-qnty {
+  font-size: 12px;
+  font-weight: 400;
+  color: #222;
+  font-family: "Inter", sans-serif;
+}
+.order-card-container {
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 0em;
+}
+
+.order-heading {
+  font-family: "Inter", sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 31.69px;
+  line-height: normal;
+  letter-spacing: 0;
+  color: #565656;
+  opacity: 1;
+}
+.orders-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 32px;
+  background: transparent;
+  padding: 0 12px;
+  background-color: white;
+  border-radius: 30px;
+  padding: 50px;
+}
+
+.order-card.processing {
+  border-color: #fdddb6;
+  background: #fdddb6;
+}
+.order-card.done {
+  border-color: #b9f1c3;
+  background: #b9f1c3;
+}
+.order-card.takeaway {
+  border-color: #cde1ea;
+  background: #cde1ea;
+}
+.order-card.served {
+  border-color: #a7f3d0;
+  background: #e6fff3;
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-card-icon {
+  font-size: 22px;
+  color: #3b82f6;
+}
+
+.order-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  margin-left: 12px;
+  font-family: "Inter", sans-serif;
+}
+
+.order-card-table-id {
+  font-size: 10px;
+  font-weight: 400;
+  color: #222;
+  font-family: "Inter", sans-serif;
+}
+
+.order-card-time {
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 2px;
+  color: #222;
+  font-family: "Inter", sans-serif;
+}
+
+.order-card-badge {
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 16px;
+  padding: 20px;
+  margin-left: auto;
+  background: #fff;
+  color: #222;
+  border: 1.5px solid #e5e7eb;
+  font-family: "Lato", sans-serif;
+}
+
+.order-card.processing .order-card-badge,
+.order-card.processing .\ {
+  background: #ffd59a;
+  color: #b45309;
+  border: none;
+}
+.order-card.done .order-card-badge,
+.order-card.done .order-card-btn,
+.order-card.served .order-card-badge,
+.order-card.served .order-card-btn {
+  background: #31ff65;
+  color: #0e912f;
+  border: none;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-family: "Lato", sans-serif;
+}
+.order-card.takeaway .order-card-badge,
+.order-card.takeaway .order-card-btn {
+  background: #cbd5e1;
+  color: #334155;
+  border: none;
+  font-family: "Lato", sans-serif;
+}
+
+.order-card-body {
+  padding: 12px 18px 0 18px;
+  flex: 1;
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.order-card-items {
+  margin: 0;
+  padding: 0 0 0 18px;
+  font-size: 15px;
+  color: #222;
+}
+
+.order-card-items li {
+  margin-bottom: 4px;
+}
+
+.order-card-footer {
+  padding: 16px 18px 18px 18px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.order-card-btn {
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 16px;
+  padding: 6px 18px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}

@@ -1,0 +1,136 @@
+.cart-container {
+  background-color: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cart-header {
+  margin-bottom: 20px;
+}
+
+.cart-header h2 {
+  margin-bottom: 12px;
+}
+
+.order-type-toggle {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.order-type-option {
+  flex: 1;
+  padding: 8px 12px;
+  text-align: center;
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  background-color: var(--bg-accent);
+  color: var(--text-secondary);
+  border: none;
+  border-right: 1px solid var(--border-color);
+}
+
+.order-type-option:last-child {
+  border-right: none;
+}
+
+.order-type-option.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.item-price {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-accent);
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.item-quantity {
+  font-weight: 500;
+  min-width: 24px;
+  text-align: center;
+}
+
+.cart-summary {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-row.total {
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.checkout-btn {
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  margin-top: 16px;
+}
+
+.checkout-btn:hover {
+  background-color: var(--primary-dark);
+}

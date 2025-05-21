@@ -1,0 +1,124 @@
+.orders-list {
+  background-color: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.orders-list h2 {
+  margin-bottom: 16px;
+}
+
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-item {
+  background-color: var(--bg-accent);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  border-left: 4px solid var(--border-color);
+}
+
+.order-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.order-item.selected {
+  border-color: var(--primary-color);
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.order-item.processing {
+  border-color: var(--primary-color);
+}
+
+.order-item.done {
+  border-color: var(--info-color);
+}
+
+.order-item.served {
+  border-color: var(--success-color);
+}
+
+.order-item.notPickedUp {
+  border-color: var(--warning-color);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.order-id {
+  font-weight: 600;
+}
+
+.order-timestamp {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.order-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.order-table {
+  font-weight: 500;
+}
+
+.order-info {
+  display: flex;
+  gap: 12px;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.order-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.order-item.processing .status-badge {
+  background-color: rgba(67, 97, 238, 0.1);
+  color: var(--primary-color);
+}
+
+.order-item.done .status-badge {
+  background-color: rgba(33, 150, 243, 0.1);
+  color: var(--info-color);
+}
+
+.order-item.served .status-badge {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: var(--success-color);
+}
+
+.order-item.notPickedUp .status-badge {
+  background-color: rgba(255, 152, 0, 0.1);
+  color: var(--warning-color);
+}
+
+.order-type {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}

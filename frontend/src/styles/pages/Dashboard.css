@@ -1,0 +1,35 @@
+.dashboard-page {
+  padding: 20px;
+  background-color: #ffff;
+  border-radius: 30px;
+  width: 100%;
+}
+
+.dashboard-header h1 {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: normal;
+  letter-spacing: 0;
+  color: #565656;
+}
+
+.metrics-overview {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 60px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.chef-list-container {
+  margin-bottom: 20px;
+}
