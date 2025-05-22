@@ -81,12 +81,14 @@
 .remove-btn {
   background: none;
   border: none;
-  color: #ff0000;
+  color: #ffff;
   cursor: pointer;
-  padding: 0;
+  padding: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: red;
+  border-radius: 50%;
 }
 
 .cart-item-price {
@@ -146,7 +148,6 @@
 
 .special-instructions input:focus {
   outline: none;
-  border-color: var(--accent-color);
 }
 
 /* Order type selector */
@@ -171,7 +172,8 @@
 
 .order-type-selector button.active {
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  margin: 4px;
 }
 
 /* Order summary */
