@@ -15,12 +15,6 @@ const ChefOrderList = () => {
           <tr>
             <th>Chef Name</th>
             <th>Order Taken</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
