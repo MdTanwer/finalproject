@@ -12,6 +12,8 @@
   padding: 10px;
   border-radius: 20px;
   margin-bottom: 0em;
+
+  margin: 20px;
 }
 
 .order-heading {
@@ -27,7 +29,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
-  margin-top: 32px;
   background: transparent;
   padding: 0 12px;
   background-color: white;
@@ -118,10 +119,16 @@
 }
 .order-card.takeaway .order-card-badge,
 .order-card.takeaway .order-card-btn {
-  background: #cbd5e1;
-  color: #334155;
+  background: #9baeb3;
+  color: #3b413d;
   border: none;
   font-family: "Lato", sans-serif;
+  margin-top: 3px;
+  margin-bottom: 2px;
+}
+
+.order-card-btn {
+  border: 1px solid red;
 }
 
 .order-card-body {
@@ -131,6 +138,7 @@
   margin-top: 20px;
   border-radius: 20px;
   padding: 20px;
+  margin: 20px;
 }
 
 .order-card-items {
@@ -159,4 +167,6 @@
   border: none;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
+  background-color: #d87300;
+  color: #fdc474;
 }
