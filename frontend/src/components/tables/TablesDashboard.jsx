@@ -2,8 +2,7 @@ import "../../styles/components/tables/TablesDashboard.css";
 import { useState, useEffect, useRef } from "react";
 import { FaTrashAlt, FaChair } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-
-const API_URL = "https://finalproject-twn3.onrender.com/api/tables";
+import { fetchTables, addTable, deleteTable } from "../../context/tablesApi";
 
 const TablesDashboard = () => {
   const [tables, setTables] = useState([]);
@@ -15,7 +14,7 @@ const TablesDashboard = () => {
 
   // Fetch tables from backend
   useEffect(() => {
-    fetchTables();
+    handleFetchTables();
   }, []);
 
   useEffect(() => {
@@ -33,11 +32,10 @@ const TablesDashboard = () => {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [showAddModal]);
 
-  const fetchTables = async () => {
+  const handleFetchTables = async () => {
     setLoading(true);
     try {
-      const res = await fetch(API_URL);
-      const data = await res.json();
+      const data = await fetchTables();
       setTables(data);
       setError("");
     } catch {
@@ -48,7 +46,7 @@ const TablesDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      await deleteTable(id);
       setTables(tables.filter((t) => t._id !== id));
     } catch {
       setError("Failed to delete table");
@@ -58,25 +56,16 @@ const TablesDashboard = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: newTable.name,
-          chairs: newTable.chairs,
-        }),
+      const data = await addTable({
+        name: newTable.name,
+        chairs: newTable.chairs,
       });
-      const data = await res.json();
-      if (res.ok) {
-        setTables([...tables, data]);
-        setNewTable({ name: "", chairs: 3 });
-        setError("");
-        setShowAddModal(false);
-      } else {
-        setError(data.error || "Failed to add table");
-      }
-    } catch {
-      setError("Failed to add table");
+      setTables([...tables, data]);
+      setNewTable({ name: "", chairs: 3 });
+      setError("");
+      setShowAddModal(false);
+    } catch (err) {
+      setError(err.message || "Failed to add table");
     }
   };
 

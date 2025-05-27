@@ -6,6 +6,9 @@ import "../styles/pages/MobileCheckout.css";
 import "../styles/pages/CookingInstructions.css";
 import "../styles/pages/MobileMenu.css";
 import { FiSearch } from "react-icons/fi";
+import { useApi } from "../context/ApiContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MobileCheckout = () => {
   const [cart, setCart] = useState([]);
@@ -18,6 +21,9 @@ const MobileCheckout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Context API for order and menu items
+  const { createOrder, orderLoading, orderError, menuItems } = useApi();
+
   // Sample user details
   const userDetails = {
     name: "Divya Sharma",
@@ -27,8 +33,8 @@ const MobileCheckout = () => {
   // Sample delivery address
   const deliveryAddress = "Flat no. 301, CJB Enclave, Nagar Nagar, Hyderabad";
 
-  // Sample delivery time
-  const deliveryTime = "42 mins";
+  // Sample delivery time (fallback)
+  const fallbackDeliveryTime = "42 mins";
 
   useEffect(() => {
     // Load cart from localStorage
@@ -86,26 +92,30 @@ const MobileCheckout = () => {
   const increaseQuantity = (itemId) => {
     setCart(
       cart.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+        (item._id || item.id) === itemId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       )
     );
   };
 
   const decreaseQuantity = (itemId) => {
-    const existingItem = cart.find((item) => item.id === itemId);
+    const existingItem = cart.find((item) => (item._id || item.id) === itemId);
     if (existingItem.quantity === 1) {
-      setCart(cart.filter((item) => item.id !== itemId));
+      setCart(cart.filter((item) => (item._id || item.id) !== itemId));
     } else {
       setCart(
         cart.map((item) =>
-          item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
+          (item._id || item.id) === itemId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
         )
       );
     }
   };
 
   const removeItem = (itemId) => {
-    setCart(cart.filter((item) => item.id !== itemId));
+    setCart(cart.filter((item) => (item._id || item.id) !== itemId));
   };
 
   const calculateSubtotal = () => {
@@ -124,15 +134,64 @@ const MobileCheckout = () => {
     return calculateSubtotal() + calculateDeliveryCharge() + calculateTaxes();
   };
 
-  const placeOrder = () => {
-    // Here you would submit the order to your backend
-    alert("Order placed successfully!");
-    // Clear cart and navigate back to menu
-    localStorage.removeItem("cart");
-    navigate("/order-menu");
+  // Calculate deliveryTime from menuItems context
+  const getDeliveryTime = () => {
+    if (!menuItems || !cart.length) return fallbackDeliveryTime;
+    // Find the max deliveryTime among all items in the cart
+    let maxTime = 0;
+    cart.forEach((cartItem) => {
+      const menuItem = menuItems.find(
+        (m) =>
+          m._id === cartItem._id ||
+          m._id === cartItem.id ||
+          m.id === cartItem._id ||
+          m.id === cartItem.id
+      );
+      if (
+        menuItem &&
+        menuItem.deliveryTime &&
+        menuItem.deliveryTime > maxTime
+      ) {
+        maxTime = menuItem.deliveryTime;
+      }
+    });
+    return maxTime ? `${maxTime} mins` : fallbackDeliveryTime;
+  };
+
+  // Prepare order data for API
+  const getOrderPayload = () => {
+    return {
+      items: cart.map((item) => ({
+        menuItem: item._id || item.id,
+        quantity: item.quantity,
+      })),
+      orderType,
+      specialInstructions,
+      user: userDetails,
+      deliveryAddress: orderType === "takeAway" ? deliveryAddress : undefined,
+      deliveryTime: orderType === "takeAway" ? getDeliveryTime() : "43",
+      deliveryCharge: calculateDeliveryCharge(),
+      tax: calculateTaxes(),
+      total: calculateTotal(),
+      tableName:
+        orderType === "dineIn" ? cart[0]?.tableName || undefined : undefined,
+    };
+  };
+
+  const placeOrder = async () => {
+    if (orderLoading) return; // Prevent multiple submissions
+    try {
+      await createOrder(getOrderPayload());
+      toast.success("Order placed successfully!");
+      localStorage.removeItem("cart");
+      navigate("/order-menu");
+    } catch {
+      // Error handled by context
+    }
   };
 
   const handleSwipeTouchStart = () => {
+    if (orderLoading) return; // Prevent swipe while loading
     setIsDragging(true);
   };
 
@@ -167,41 +226,48 @@ const MobileCheckout = () => {
         </div>
       </div>
 
-      {/* Cart Item */}
-      <div className="checkout-cart-item">
-        <div className="cart-item-image">
-          {/* Show the actual image from the cart */}
-          {cart[0]?.image && (
-            <img
-              className="pizza-img"
-              src={cart[0].image}
-              alt={cart[0]?.name}
-            />
-          )}
-        </div>
-        <div className="cart-item-details">
-          <div className="cart-item-top">
-            <h3>{cart[0]?.name || "Marinara"}</h3>
-            <button
-              className="remove-btn"
-              onClick={() => removeItem(cart[0]?.id)}
-            >
-              <FiX />
-            </button>
-          </div>
-          <p className="cart-item-price">₹ {cart[0]?.price || 200}</p>
-          <div className="cart-item-controls">
-            <div className="quantity-selector">
-              <button onClick={() => cart[0] && decreaseQuantity(cart[0].id)}>
-                -
-              </button>
-              <span>{cart[0]?.quantity || 1}</span>
-              <button onClick={() => cart[0] && increaseQuantity(cart[0].id)}>
-                +
-              </button>
+      {/* Cart Items */}
+      <div className="checkout-cart-items">
+        {cart.length === 0 ? (
+          <div>Your cart is empty.</div>
+        ) : (
+          cart.map((item) => (
+            <div className="checkout-cart-item" key={item._id || item.id}>
+              <div className="cart-item-image">
+                {item.image && (
+                  <img className="pizza-img" src={item.image} alt={item.name} />
+                )}
+              </div>
+              <div className="cart-item-details">
+                <div className="cart-item-top">
+                  <h3>{item.name}</h3>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeItem(item._id || item.id)}
+                  >
+                    <FiX />
+                  </button>
+                </div>
+                <p className="cart-item-price">₹ {item.price}</p>
+                <div className="cart-item-controls">
+                  <div className="quantity-selector">
+                    <button
+                      onClick={() => decreaseQuantity(item._id || item.id)}
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => increaseQuantity(item._id || item.id)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          ))
+        )}
       </div>
 
       {/* Special Instructions */}
@@ -302,7 +368,7 @@ const MobileCheckout = () => {
             </div>
             <div className="delivery-time">
               <FaClock className="detail-icon" />
-              <p>Delivery in {deliveryTime}</p>
+              <p>Delivery in {getDeliveryTime()}</p>
             </div>
           </div>
         )}
@@ -324,8 +390,12 @@ const MobileCheckout = () => {
         <div className="swipe-icon">
           <FiArrowRight />
         </div>
-        <div className="swipe-text">Swipe to Order</div>
+        <div className="swipe-text">
+          {orderLoading ? "Placing order..." : "Swipe to Order"}
+        </div>
+        {orderError && <div className="error">{orderError}</div>}
       </div>
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };

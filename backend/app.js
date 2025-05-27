@@ -21,6 +21,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Table routes
 app.use("/api/tables", require("./routes/tableRoutes"));
+// Menu item routes
+app.use("/api/menu-items", require("./routes/menuRoutes"));
+// Order routes
+app.use("/api/orders", require("./routes/orderRoutes"));
+// Chef routes
+app.use("/api/chefs", require("./routes/chefRoutes"));
 
 // Basic route
 app.get("/", (req, res) => {

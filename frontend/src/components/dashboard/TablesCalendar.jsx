@@ -1,18 +1,31 @@
 import "../../styles/components/dashboard/TablesCalendar.css";
+import { useEffect, useState } from "react";
+import { fetchTables } from "../../context/tablesApi";
 
 const TablesCalendar = () => {
-  // 35 tables, numbered 1-35 for a 7x5 grid, filled horizontally
-  const rows = 3;
-  const cols = 7;
-  const tableNumbers = [];
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      tableNumbers.push(row * cols + col + 1);
-    }
-  }
+  const [tables, setTables] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Reserved tables (green) - example data, adjust as needed
-  const reservedTables = [4, 5, 7, 9, 12, 17, 21, 22];
+  useEffect(() => {
+    const getTables = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchTables();
+        setTables(data);
+        setError("");
+      } catch {
+        setError("Failed to fetch tables");
+      }
+      setLoading(false);
+    };
+    getTables();
+  }, []);
+
+  // Only 'reserved' and 'available' statuses
+  const getStatusClass = (status) => {
+    return status === "reserved" ? "reserved" : "available";
+  };
 
   return (
     <div className="tables-calendar">
@@ -31,19 +44,25 @@ const TablesCalendar = () => {
       </div>
       <div className="chart-divider" />
 
-      <div className="tables-grid1">
-        {tableNumbers.map((num) => (
-          <div
-            key={num}
-            className={`table-cell ${
-              reservedTables.includes(num) ? "reserved" : "available"
-            }`}
-          >
-            <div className="table-label">Table</div>
-            <div className="table-number">{String(num).padStart(2, "0")}</div>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div>Loading tables...</div>
+      ) : error ? (
+        <div className="error">{error}</div>
+      ) : (
+        <div className="tables-grid1">
+          {tables.map((table, idx) => (
+            <div
+              key={table._id || idx}
+              className={`table-cell ${getStatusClass(table.status)}`}
+            >
+              <div className="table-label">Table</div>
+              <div className="table-number">
+                {table.name || String(idx + 1).padStart(2, "0")}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

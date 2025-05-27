@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "../../styles/components/navigation/Header.css";
-import SearchBar from "../common/SearchBar";
-import { RxAvatar } from "react-icons/rx";
+import DashboardSearchBar from "../searchBar/DashboardSearchBar";
 
-const Header = () => {
+const DashboardHeader = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (query) => {
@@ -19,7 +18,7 @@ const Header = () => {
 
       <div className="header-right">
         <div className="search-container">
-          <SearchBar
+          <DashboardSearchBar
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Filter..."
@@ -30,4 +29,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default DashboardHeader;

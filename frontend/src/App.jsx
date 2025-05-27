@@ -11,11 +11,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="tables" element={<TableManagement />} />
-          <Route path="orders" element={<OrderManagement />} />
-        </Route>
+        {/* <Route path="/" element={<MainLayout />}> */}
+        <Route path="/" element={<Dashboard />} />
+        <Route path="tables" element={<TableManagement />} />
+        <Route path="orders" element={<OrderManagement />} />
+        {/* </Route> */}
         {/* Standalone routes without MainLayout (no header/sidebar) */}
         <Route path="/order-menu" element={<MobileMenu />} />
         <Route path="/mobile-checkout" element={<MobileCheckout />} />
