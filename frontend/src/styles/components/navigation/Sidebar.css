@@ -56,3 +56,7 @@
   background-color: #d1d5db; /* darker circle for active */
   color: #000000;
 }
+
+.nav-icon {
+  padding-top: 2px;
+}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../../styles/components/navigation/Header.css";
 import DashboardSearchBar from "../searchBar/DashboardSearchBar";
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ filters, onFilterChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (query) => {
@@ -21,6 +21,8 @@ const DashboardHeader = () => {
           <DashboardSearchBar
             value={searchQuery}
             onChange={handleSearch}
+            filters={filters}
+            onFilterChange={onFilterChange}
             placeholder="Filter..."
           />
         </div>

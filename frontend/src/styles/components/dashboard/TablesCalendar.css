@@ -1,11 +1,12 @@
 .tables-calendar {
   background-color: #f5faf8;
   border-radius: 18px;
-  padding: 32px 24px;
+  padding: 28px 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1.5px solid #e6ecea;
   font-family: "Inter", sans-serif;
   opacity: 1;
+
   /* border: 1px solid red; */
 }
 
@@ -27,6 +28,7 @@
   display: flex;
   gap: 5px;
   align-items: center;
+  margin-top: 9px;
   /* border: 1px solid red; */
 }
 
@@ -64,12 +66,10 @@
 }
 
 .tables-grid1 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 24px;
-  justify-content: flex-start;
-  /* border: 1px solid red; */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns */
+  gap: 7px; /* Adjust as needed */
+  margin-top: 16px;
 }
 
 .table-cell {
@@ -106,7 +106,7 @@
 }
 
 .table-number {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   margin-top: 2px;
 }

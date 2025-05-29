@@ -98,9 +98,15 @@ const OrderSummaryChart = () => {
             onChange={(e) => setPeriod(e.target.value)}
             className="chart-period-select"
           >
-            <option value="Daily">Daily</option>
-            <option value="Weekly">Weekly</option>
-            <option value="Monthly">Monthly</option>
+            <option className="chart-period-option" value="Daily">
+              Daily
+            </option>
+            <option className="chart-period-option" value="Weekly">
+              Weekly
+            </option>
+            <option className="chart-period-option" value="Monthly">
+              Monthly
+            </option>
           </select>
         </div>
       </div>

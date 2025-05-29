@@ -1,6 +1,6 @@
 .metric-card {
   background-color: #f0f5f3;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -12,18 +12,16 @@
   /* color: #626262; */
   font-family: "Inter", sans-serif;
   opacity: 0.8; /* 100% */
+  border: 1px solid #d9d9d9;
 }
 
 .metric-icon {
   font-size: 24px;
-  background-color: #dff0ff;
-  padding: 10px;
+  background-color: #e1f0ff;
+  padding: 13px;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 30px;
-  /* color: #2d3748; */
-
-  /* Replace with actual image path */
 }
 
 .metric-content {
@@ -34,33 +32,16 @@
 
 .metric-title {
   font-size: 10px;
-  color: #718096;
+  color: #666666;
   margin: 0;
   font-weight: 500;
   font-family: "Inter", sans-serif;
 }
 
 .metric-value {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   margin: 0 0 4px 0;
-  color: #2d3748;
-}
-
-.metric-trend {
-  font-size: 13px;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 16px;
-  display: inline-block;
-}
-
-.metric-trend.up {
-  background-color: rgba(72, 187, 120, 0.1);
-  color: #48bb78;
-}
-
-.metric-trend.down {
-  background-color: rgba(245, 101, 101, 0.1);
-  color: #f56565;
+  color: #626262;
+  font-family: "Inter", sans-serif;
 }

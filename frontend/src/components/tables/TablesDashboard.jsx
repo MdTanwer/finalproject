@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { FaTrashAlt, FaChair } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { fetchTables, addTable, deleteTable } from "../../context/tablesApi";
+import TableHeader from "../navigation/TableHeader";
 
 const TablesDashboard = () => {
   const [tables, setTables] = useState([]);
@@ -10,6 +11,7 @@ const TablesDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [search, setSearch] = useState("");
   const addBtnRef = useRef(null);
 
   // Fetch tables from backend
@@ -69,8 +71,15 @@ const TablesDashboard = () => {
     }
   };
 
+  // Filter tables by search
+  const filteredTables = tables.filter((table) => {
+    const tableNumber = table.name.replace(/[^0-9]/g, "");
+    return tableNumber.includes(search.trim());
+  });
+
   return (
     <div className="tables-dashboard">
+      <TableHeader value={search} onChange={setSearch} />
       <h1>Tables</h1>
       {loading ? (
         <div>Loading tables...</div>
@@ -78,7 +87,7 @@ const TablesDashboard = () => {
         <div className="error">{error}</div>
       ) : (
         <div className="tables-grid">
-          {tables.map((table) => (
+          {filteredTables.map((table) => (
             <div key={table._id} className={`table-card `}>
               <button
                 className="delete-btn"

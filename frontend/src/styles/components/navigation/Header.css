@@ -1,4 +1,10 @@
 .main-header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  /* background: #fff; or your header background color */
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); optional, for effect */
   display: flex;
   justify-content: flex-start;
   gap: 24px;

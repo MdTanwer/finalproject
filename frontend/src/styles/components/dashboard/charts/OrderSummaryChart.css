@@ -43,11 +43,18 @@
   padding: 10px;
   padding-left: 15px;
   padding-right: 15px;
+  border: 1px solid #d9d9d9;
 }
 
+.chart-period-select {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #b9b8be;
+}
 .chart-period-arrow {
   font-size: 12px;
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
 .chart-divider {

@@ -1,23 +1,18 @@
-import { useState } from "react";
-import "../../styles/components/common/SearchBar.css";
+import "../../styles/components/searchbar/SearchBar.css";
 
-const TableSearchBar = () => {
-  const [search, setSearch] = useState("");
-
-  // Add table-specific search/filter logic here
-
+const TableSearchBar = ({ value, onChange }) => {
   return (
     <div className="search-bar">
       <div className="search-input-container">
         <input
           type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search tables..."
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={"Search tables..."}
           className="search-input"
         />
       </div>
-      <button className="filter-button">🔍</button>
+      {/* <button className="filter-button">🔍</button> */}
     </div>
   );
 };

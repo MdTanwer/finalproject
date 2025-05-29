@@ -3,23 +3,11 @@
   align-items: center;
   width: 100%;
   height: 100%;
-}
-
-.filter-button {
-  padding: 15px;
-  background: #ffffff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #4a5568;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  background-color: #f5f8f8;
+  /* border: 1px solid #cf0f4f; */
 }
 
 .filter-button:hover {
-  background-color: #f7fafc;
+  background-color: #ffffff;
 }
 
 .filter-icon {
@@ -50,4 +38,63 @@
   font-size: 16px;
   color: #2d3748;
   padding-left: 10px;
+}
+
+/* Filter Dropdown Styles */
+.filter-dropdown-container {
+  position: relative;
+
+  width: 100%;
+}
+
+.filter-dropdown-menu.single-select {
+  position: absolute;
+  top: 130%;
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.filter-dropdown-item {
+  padding: 16px 20px;
+  font-size: 17px;
+  color: #444;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: background 0.15s, color 0.15s;
+  border-radius: 0;
+  text-align: left;
+}
+
+.filter-dropdown-item:hover {
+  background: #ffff;
+  color: #222;
+}
+
+.filter-dropdown-item:hover {
+  background: #e6f0ff;
+  color: #222;
+}
+
+.filter-button {
+  border-radius: 12px;
+  padding: 12px 18px;
+  background: #fff;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); */
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  width: 100%;
 }

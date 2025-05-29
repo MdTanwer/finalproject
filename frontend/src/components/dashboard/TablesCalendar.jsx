@@ -57,7 +57,7 @@ const TablesCalendar = () => {
             >
               <div className="table-label">Table</div>
               <div className="table-number">
-                {table.name || String(idx + 1).padStart(2, "0")}
+                {(table.name?.replace(/\D/g, "") || "0").padStart(2, "0")}
               </div>
             </div>
           ))}
