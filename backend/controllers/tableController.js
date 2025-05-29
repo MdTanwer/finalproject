@@ -3,7 +3,13 @@ const Table = require("../models/Table");
 // Get all tables
 exports.getTables = async (req, res) => {
   try {
-    const tables = await Table.find();
+    let tables = await Table.find();
+    // Sort by numeric part of name (e.g., 'Table 01', 'Table 02', ...)
+    tables.sort((a, b) => {
+      const numA = parseInt(a.name.replace(/[^\d]/g, ""), 10);
+      const numB = parseInt(b.name.replace(/[^\d]/g, ""), 10);
+      return numA - numB;
+    });
     res.json(tables);
   } catch (err) {
     res.status(500).json({ error: err.message });
