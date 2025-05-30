@@ -5,17 +5,6 @@ const Chef = require("../models/Chef");
 // Create a new order
 exports.createOrder = async (req, res) => {
   try {
-    const { table } = req.body;
-    let tableName = " Table 01"; // Default table name
-
-    if (table) {
-      const tableDoc = await Table.findById(table);
-      if (!tableDoc) {
-        return res.status(400).json({ error: "Invalid table ID" });
-      }
-      tableName = tableDoc.name;
-    }
-
     // Find the chef with the minimum orderTaken
     const chef = await Chef.findOne().sort({ orderTaken: 1 });
     if (!chef) {
@@ -30,7 +19,7 @@ exports.createOrder = async (req, res) => {
 
     const order = new Order({
       ...req.body,
-      tableName,
+
       orderId: nextOrderId,
       chef: chef._id, // Assign chef
     });

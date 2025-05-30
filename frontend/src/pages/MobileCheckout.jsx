@@ -7,8 +7,9 @@ import "../styles/pages/CookingInstructions.css";
 import "../styles/pages/MobileMenu.css";
 import { FiSearch } from "react-icons/fi";
 import { useApi } from "../context/ApiContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchTables, updateTableStatus } from "../context/menuApi";
 
 const MobileCheckout = () => {
   const [cart, setCart] = useState([]);
@@ -20,9 +21,10 @@ const MobileCheckout = () => {
   const swipeButtonRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [orderLoading, setOrderLoading] = useState(false);
 
   // Context API for order and menu items
-  const { createOrder, orderLoading, orderError, menuItems } = useApi();
+  const { createOrder } = useApi();
 
   // Sample user details
   const userDetails = {
@@ -33,25 +35,11 @@ const MobileCheckout = () => {
   // Sample delivery address
   const deliveryAddress = "Flat no. 301, CJB Enclave, Nagar Nagar, Hyderabad";
 
-  // Sample delivery time (fallback)
-  const fallbackDeliveryTime = "42 mins";
-
   useEffect(() => {
     // Load cart from localStorage
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
       setCart(JSON.parse(savedCart));
-    } else {
-      // If no cart, add a sample item
-      setCart([
-        {
-          id: 3,
-          name: "Marinara",
-          price: 200,
-          quantity: 1,
-          image: "/pizza-marinara.jpg",
-        },
-      ]);
     }
     // Check if we have instructions from navigation state (for compatibility)
     if (location.state?.instructions && location.state?.itemId) {
@@ -72,7 +60,7 @@ const MobileCheckout = () => {
       setDragProgress(progress);
       if (progress >= 0.9) {
         // User has swiped far enough to trigger the order
-        placeOrder();
+        handlePlaceOrder();
       }
     };
     const handleTouchEnd = () => {
@@ -123,7 +111,11 @@ const MobileCheckout = () => {
   };
 
   const calculateDeliveryCharge = () => {
-    return orderType === "takeAway" ? 40 : 0;
+    if (orderType !== "takeAway") return 0;
+    if (!cart.length) return 0;
+
+    // Option 1: Take the max delivery charge from cart items
+    return Math.max(...cart.map((item) => item.deliveryCharge || 0));
   };
 
   const calculateTaxes = () => {
@@ -136,26 +128,10 @@ const MobileCheckout = () => {
 
   // Calculate deliveryTime from menuItems context
   const getDeliveryTime = () => {
-    if (!menuItems || !cart.length) return fallbackDeliveryTime;
-    // Find the max deliveryTime among all items in the cart
-    let maxTime = 0;
-    cart.forEach((cartItem) => {
-      const menuItem = menuItems.find(
-        (m) =>
-          m._id === cartItem._id ||
-          m._id === cartItem.id ||
-          m.id === cartItem._id ||
-          m.id === cartItem.id
-      );
-      if (
-        menuItem &&
-        menuItem.deliveryTime &&
-        menuItem.deliveryTime > maxTime
-      ) {
-        maxTime = menuItem.deliveryTime;
-      }
-    });
-    return maxTime ? `${maxTime} mins` : fallbackDeliveryTime;
+    if (!cart.length) return "0 mins";
+    // Find max deliveryTime from cart items
+    const maxTime = Math.max(...cart.map((item) => item.deliveryTime || 0));
+    return maxTime ? `${maxTime} mins` : "10 mins";
   };
 
   // Prepare order data for API
@@ -169,24 +145,53 @@ const MobileCheckout = () => {
       specialInstructions,
       user: userDetails,
       deliveryAddress: orderType === "takeAway" ? deliveryAddress : undefined,
-      deliveryTime: orderType === "takeAway" ? getDeliveryTime() : "43",
-      deliveryCharge: calculateDeliveryCharge(),
+      deliveryTime: orderType === "dineIn" ? getDeliveryTime() : null,
+
+      deliveryCharge: orderType === "takeAway" ? calculateDeliveryCharge() : 0,
       tax: calculateTaxes(),
       total: calculateTotal(),
-      tableName:
-        orderType === "dineIn" ? cart[0]?.tableName || undefined : undefined,
     };
   };
 
-  const placeOrder = async () => {
-    if (orderLoading) return; // Prevent multiple submissions
+  const isOrderPlaced = useRef(false);
+  useEffect(() => {
+    return () => {
+      isOrderPlaced.current = false; // Reset on unmount
+    };
+  }, []);
+
+  const handlePlaceOrder = async () => {
+    if (isOrderPlaced.current || orderLoading) return;
+    isOrderPlaced.current = true;
+    setOrderLoading(true);
     try {
-      await createOrder(getOrderPayload());
-      toast.success("Order placed successfully!");
+      let tableName, tableId;
+      if (orderType === "dineIn") {
+        // Fetch all tables and find the first available one
+        const tables = await fetchTables();
+        const availableTable = tables.find((t) => t.status === "available");
+        if (!availableTable) {
+          alert("No available tables");
+          throw new Error("No available tables");
+        }
+        tableName = availableTable.name;
+        tableId = availableTable._id || availableTable.id;
+      }
+      await createOrder({
+        ...getOrderPayload(),
+        tableName: orderType === "dineIn" ? tableName : undefined,
+      });
+      if (orderType === "dineIn" && tableId) {
+        await updateTableStatus(tableId);
+      }
+      console.log("Order placed successfully!");
       localStorage.removeItem("cart");
+      alert("Order placed successfully!");
       navigate("/order-menu");
-    } catch {
-      // Error handled by context
+    } catch (err) {
+      console.log(err.message || "Failed to place order");
+    } finally {
+      setOrderLoading(false);
     }
   };
 
@@ -340,10 +345,12 @@ const MobileCheckout = () => {
           <span>Item Total</span>
           <span>₹{calculateSubtotal().toFixed(2)}</span>
         </div>
-        <div className="summary-row">
-          <span>Delivery Charge</span>
-          <span>₹{calculateDeliveryCharge().toFixed(2)}</span>
-        </div>
+        {orderType === "takeAway" && (
+          <div className="summary-row">
+            <span>Delivery Charge</span>
+            <span>₹{calculateDeliveryCharge().toFixed(2)}</span>
+          </div>
+        )}
         <div className="summary-row">
           <span>Taxes</span>
           <span>₹{calculateTaxes().toFixed(2)}</span>
@@ -366,10 +373,13 @@ const MobileCheckout = () => {
               <FaMapMarkerAlt className="detail-icon" />
               <p>{deliveryAddress}</p>
             </div>
-            <div className="delivery-time">
-              <FaClock className="detail-icon" />
-              <p>Delivery in {getDeliveryTime()}</p>
-            </div>
+          </div>
+        )}
+
+        {orderType !== "takeAway" && (
+          <div className="delivery-time">
+            <FaClock className="detail-icon" />
+            <p> Estimate time to serve {getDeliveryTime()}</p>
           </div>
         )}
       </div>
@@ -393,9 +403,7 @@ const MobileCheckout = () => {
         <div className="swipe-text">
           {orderLoading ? "Placing order..." : "Swipe to Order"}
         </div>
-        {orderError && <div className="error">{orderError}</div>}
       </div>
-      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };

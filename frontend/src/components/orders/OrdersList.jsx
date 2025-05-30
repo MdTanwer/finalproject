@@ -112,15 +112,15 @@ const OrdersList = () => {
                 {" "}
                 <div className="order-card-badge">
                   <h5>
-                    {order.status === "processing"
+                    {order.orderType === "dineIn"
                       ? `Ongoing (${formatTime(
                           timers[order._id] ?? order.deliveryTime * 60
                         )})`
-                      : order.status === "served"
+                      : order.orderType === "served"
                       ? "Served"
-                      : order.status === "notPickedUp"
-                      ? "Not Picked Up"
-                      : order.status}
+                      : order.orderType === "takeAway"
+                      ? "TakeAway"
+                      : "Server"}
                   </h5>
                 </div>
               </div>

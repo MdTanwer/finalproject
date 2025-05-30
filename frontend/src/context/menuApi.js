@@ -70,3 +70,18 @@ export const updateOrderStatus = async (orderId, status) => {
   if (!res.ok) throw new Error("Failed to update order status");
   return res.json();
 };
+
+export const fetchTables = async () => {
+  const res = await fetch("http://localhost:5000/api/tables");
+  if (!res.ok) throw new Error("Failed to fetch tables");
+  return res.json();
+};
+
+export const updateTableStatus = async (tableId) => {
+  const res = await fetch(`http://localhost:5000/api/tables/${tableId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Failed to update table status");
+  return res.json();
+};

@@ -11,7 +11,11 @@ const orderSchema = new mongoose.Schema({
       quantity: { type: Number, required: true },
     },
   ],
-  orderType: { type: String, enum: ["dineIn", "takeAway"], required: true },
+  orderType: {
+    type: String,
+    enum: ["dineIn", "takeAway ", "done"],
+    required: true,
+  },
   specialInstructions: { type: String },
   user: {
     name: { type: String, required: true },

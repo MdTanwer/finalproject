@@ -19,6 +19,7 @@ const MobileMenu = () => {
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("pizza");
+  const [search, setSearch] = useState("");
 
   // Use context for menu items
   const { menuItems, menuLoading, menuError, getMenuItems } = useApi();
@@ -29,7 +30,9 @@ const MobileMenu = () => {
   }, []);
 
   const filteredItems = (menuItems || []).filter(
-    (item) => item.category === activeCategory
+    (item) =>
+      item.category === activeCategory &&
+      item.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const addToCart = (item) => {
@@ -75,7 +78,13 @@ const MobileMenu = () => {
 
         <div className="m-search-container">
           <FiSearch className="search-icon" size={20} />
-          <input type="text" placeholder="Search" className="search-input" />
+          <input
+            type="text"
+            placeholder="Search"
+            className="search-input"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
       </div>
 

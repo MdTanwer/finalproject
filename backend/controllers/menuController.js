@@ -44,7 +44,7 @@ exports.seedProducts = async (req, res) => {
         price: 200,
         image:
           "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 25,
+        deliveryTime: 2,
         deliveryCharge: 20,
       },
       {
@@ -53,7 +53,7 @@ exports.seedProducts = async (req, res) => {
         price: 150,
         image:
           "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 20,
+        deliveryTime: 2,
         deliveryCharge: 20,
       },
       {
@@ -62,7 +62,7 @@ exports.seedProducts = async (req, res) => {
         price: 250,
         image:
           "https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 22,
+        deliveryTime: 2,
         deliveryCharge: 20,
       },
       {
@@ -71,7 +71,7 @@ exports.seedProducts = async (req, res) => {
         price: 300,
         image:
           "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 28,
+        deliveryTime: 2,
         deliveryCharge: 20,
       },
       {
@@ -80,7 +80,7 @@ exports.seedProducts = async (req, res) => {
         price: 210,
         image:
           "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 24,
+        deliveryTime: 2,
         deliveryCharge: 20,
       },
       // Burger
@@ -90,7 +90,7 @@ exports.seedProducts = async (req, res) => {
         price: 120,
         image:
           "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 15,
+        deliveryTime: 5,
         deliveryCharge: 15,
       },
       {
@@ -99,7 +99,7 @@ exports.seedProducts = async (req, res) => {
         price: 140,
         image:
           "https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 16,
+        deliveryTime: 1,
         deliveryCharge: 15,
       },
       // Drink
@@ -128,7 +128,7 @@ exports.seedProducts = async (req, res) => {
         price: 80,
         image:
           "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 10,
+        deliveryTime: 1,
         deliveryCharge: 12,
       },
       {
@@ -137,7 +137,7 @@ exports.seedProducts = async (req, res) => {
         price: 90,
         image:
           "https://images.unsplash.com/photo-1506089676908-3592f7389d4d?auto=format&fit=crop&w=400&q=80",
-        deliveryTime: 12,
+        deliveryTime: 2,
         deliveryCharge: 12,
       },
       // Veggies

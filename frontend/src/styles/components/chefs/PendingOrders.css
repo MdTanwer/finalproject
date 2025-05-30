@@ -49,6 +49,7 @@
   background-color: var(--bg-accent);
   border-radius: var(--border-radius);
   padding: 16px;
+  border: 1px solid rgb(5, 50, 253);
 }
 
 .order-header {
