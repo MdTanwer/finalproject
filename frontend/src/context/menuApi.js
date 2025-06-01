@@ -1,4 +1,4 @@
-const API_URL = "https://finalproject-8lp2.onrender.com/api/menu-items";
+const API_URL = "https://finalproject-8lp2.onrender.com/api/products";
 const ORDER_URL = "https://finalproject-8lp2.onrender.com/api/orders";
 const CHEF_URL = "https://finalproject-8lp2.onrender.com/api/chefs";
 
