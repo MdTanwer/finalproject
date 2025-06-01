@@ -209,7 +209,7 @@ const OrdersList = ({ orders: propOrders }) => {
                     </>
                   ) : order.status === "served" ? (
                     <>
-                      Served{" "}
+                      Order Served{" "}
                       <FaCheckCircle style={{ paddingTop: 5, fontSize: 20 }} />
                     </>
                   ) : (
