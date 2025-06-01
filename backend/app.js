@@ -1,3 +1,7 @@
+/**
+ * Main Application Entry Point
+ * Sets up Express server with middleware and routes
+ */
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -6,7 +10,8 @@ const errorHandler = require("./utils/errorHandler");
 
 const app = express();
 
-// Middleware
+// CORS Configuration
+// Allow requests from frontend applications
 app.use(
   cors({
     origin: [
@@ -17,29 +22,28 @@ app.use(
   })
 );
 
+// Middleware Setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Table routes
-app.use("/api/tables", require("./routes/tableRoutes"));
-// Menu item routes
-app.use("/api/products", require("./routes/productRoutes"));
-// Order routes
-app.use("/api/orders", require("./routes/orderRoutes"));
-// Chef routes
-app.use("/api/chefs", require("./routes/chefRoutes"));
+// Route Definitions
+app.use("/api/tables", require("./routes/tableRoutes")); // Table management
+app.use("/api/products", require("./routes/productRoutes")); // Menu items
+app.use("/api/orders", require("./routes/orderRoutes")); // Order processing
+app.use("/api/chefs", require("./routes/chefRoutes")); // Chef management
 
-// Custom error handler (should be last middleware)
+// Global Error Handler
 app.use(errorHandler);
 
-// Basic route
+// Health Check Route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the backend API" });
 });
 
-// Set port and start server
+// Server Configuration
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
+  // Connect to MongoDB when server starts
   connectDB();
   console.log(`Server is running on port ${PORT}`);
 });

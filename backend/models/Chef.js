@@ -1,8 +1,20 @@
 const mongoose = require("mongoose");
 
+/**
+ * Chef Schema
+ * Defines the structure for chef information in the restaurant
+ * Tracks chef details and their workload
+ */
 const chefSchema = new mongoose.Schema({
+  // Chef's personal information
   name: { type: String, required: true },
-  orderTaken: { type: Number, default: 0 },
+
+  // Workload tracking
+  orderTaken: {
+    type: Number,
+    default: 0, // Number of orders currently assigned to this chef
+    min: 0, // Cannot have negative orders
+  },
 });
 
 module.exports = mongoose.model("Chef", chefSchema);

@@ -1,19 +1,30 @@
 const mongoose = require("mongoose");
 
+/**
+ * Table Schema
+ * Defines the structure for restaurant tables
+ * Manages table information and reservation status
+ */
 const tableSchema = new mongoose.Schema({
+  // Table identification
   name: {
     type: String,
     required: true,
+    unique: true, // Each table must have a unique name
   },
-  status: {
-    type: String,
-    enum: ["available", "reserved"],
-    default: "available",
-  },
+
+  // Seating capacity
   chairs: {
     type: Number,
     required: true,
-    min: 1,
+    min: 1, // Must have at least one chair
+  },
+
+  // Table availability status
+  status: {
+    type: String,
+    enum: ["available", "reserved"], // Table can only be available or reserved
+    default: "available",
   },
 });
 

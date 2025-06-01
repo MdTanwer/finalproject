@@ -4,15 +4,19 @@ This is the backend API for the Restaurant Management System, built with Node.js
 
 ## Features
 
-- Table management (CRUD)
-- MongoDB database connection
-- RESTful API endpoints
-- Seed script for dummy data
+- Order Management (Dine-in and Takeaway)
+- Menu Item Management
+- Table Management
+- Chef Workload Management
+- Real-time Order Status Tracking
+- Custom Error Handling
+- CORS Support for Frontend Integration
 
 ## Requirements
 
 - Node.js (v14+ recommended)
 - MongoDB database (local or Atlas)
+- npm or yarn package manager
 
 ## Setup
 
@@ -24,46 +28,123 @@ This is the backend API for the Restaurant Management System, built with Node.js
 
 2. **Configure environment:**
 
-   - The MongoDB connection string is currently hardcoded in `config/db.js` and `seedTables.js`. For production, move this to an `.env` file and use `process.env.MONGO_URI`.
+   - Currently using MongoDB Atlas connection
+   - For production, move the MongoDB URI to `.env` file
+   - Configure CORS origins in `app.js` if needed
 
 3. **Run the server:**
 
    ```bash
+   # Development mode with nodemon
    npm run dev
-   # or
 
-
-   The server will start on port 5000 by default.
-
+   # Production mode
+   npm start
    ```
 
-4. **Seed dummy tables (optional):**
+4. **Seed initial data (optional):**
+
    ```bash
+   # Seed tables
    node seedTables.js
+
+   # Seed chefs
+   node seedChefs.js
    ```
 
 ## API Endpoints
 
 ### Root
 
-- `GET /` — Welcome message (health check)
+- `GET /` — Health check endpoint
+
+### Orders
+
+- `GET /api/orders` — Get all orders
+- `GET /api/orders/:id` — Get order by ID
+- `POST /api/orders` — Create new order
+- `PATCH /api/orders/:id/status` — Update order status
+- `PATCH /api/orders/:id/takeaway-status` — Update takeaway status
+- `DELETE /api/orders` — Delete all orders
+
+### Menu Items
+
+- `GET /api/products` — Get all menu items
+- `DELETE /api/products/:id` — Delete menu item
+- `DELETE /api/products` — Delete all menu items
+- `POST /api/products/seed` — Seed menu items
 
 ### Tables
 
 - `GET /api/tables` — Get all tables
-- `POST /api/tables` — Add a new table
-  - Body: `{ name?: string, chairs: number }`
-- `DELETE /api/tables/:id` — Delete a table by ID
+- `POST /api/tables` — Add new table
+- `DELETE /api/tables/:id` — Delete table
+- `PATCH /api/tables/:id` — Update table status
 
-## Data Model
+### Chefs
 
-**Table**
+- `GET /api/chefs` — Get all chefs
+- `POST /api/chefs` — Add/seed chefs
 
-```
+## Data Models
+
+### Order
+
+```javascript
 {
-  name: String,         // required
-  status: String,       // 'available' or 'reserved', default 'available'
-  chairs: Number        // required, min 1
+  items: [{
+    menuItem: ObjectId,  // Reference to MenuItem
+    quantity: Number
+  }],
+  orderType: String,     // "dineIn", "takeAway", "done"
+  specialInstructions: String,
+  user: {
+    name: String,
+    phone: String
+  },
+  deliveryAddress: String,
+  deliveryTime: String,
+  deliveryCharge: Number,
+  tax: Number,
+  total: Number,
+  orderId: Number,
+  tableName: String,
+  status: String,        // "processing", "served", "takeaway"
+  takeawayStatus: String,// "notPickedUp", "pickedUp"
+  createdAt: Date,
+  chef: ObjectId         // Reference to Chef
+}
+```
+
+### MenuItem
+
+```javascript
+{
+  name: String,
+  category: String,      // pizza, burger, drink, etc.
+  price: Number,
+  image: String,         // URL to item image
+  deliveryTime: Number,  // in minutes
+  deliveryCharge: Number
+}
+```
+
+### Table
+
+```javascript
+{
+  name: String,          // unique
+  chairs: Number,        // min: 1
+  status: String        // "available" or "reserved"
+}
+```
+
+### Chef
+
+```javascript
+{
+  name: String,
+  orderTaken: Number    // Tracks chef workload
 }
 ```
 
@@ -71,13 +152,39 @@ This is the backend API for the Restaurant Management System, built with Node.js
 
 ```
 backend/
-  app.js              # Main server file
-  config/db.js        # MongoDB connection
-  models/Table.js     # Table Mongoose model
-  controllers/        # Route controllers
-  routes/             # Express route definitions
-  seedTables.js       # Dummy data seeder
-  package.json        # NPM config
+├── app.js              # Main application entry
+├── config/
+│   └── db.js          # Database configuration
+├── controllers/
+│   ├── chefController.js
+│   ├── orderController.js
+│   ├── productController.js
+│   └── tableController.js
+├── models/
+│   ├── Chef.js
+│   ├── MenuItem.js
+│   ├── Order.js
+│   └── Table.js
+├── routes/
+│   ├── chefRoutes.js
+│   ├── orderRoutes.js
+│   ├── productRoutes.js
+│   └── tableRoutes.js
+├── utils/
+│   └── errorHandler.js  # Global error handling
+├── seedChefs.js        # Chef data seeder
+└── seedTables.js       # Table data seeder
+```
+
+## Error Handling
+
+The application uses a global error handler that provides consistent error responses:
+
+```javascript
+{
+  status: "error",
+  message: "Error description"
+}
 ```
 
 ## License
