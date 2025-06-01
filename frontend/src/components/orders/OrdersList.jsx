@@ -147,9 +147,9 @@ const OrdersList = ({ orders: propOrders }) => {
                   <h5>
                     {order.orderType === "dineIn" &&
                     order.status === "processing"
-                      ? `Ongoing (${formatTime(
+                      ? `Ongoing ${formatTime(
                           timers[order._id] ?? order.deliveryTime * 60
-                        )})`
+                        )} minutes`
                       : order.status === "served"
                       ? "Served"
                       : order.orderType === "takeAway"
@@ -200,10 +200,21 @@ const OrdersList = ({ orders: propOrders }) => {
                     <FaCheckCircle style={{ paddingTop: 5, fontSize: 20 }} />
                   </>
                 ) : order.orderType === "dineIn" ? (
-                  <>
-                    Processing{" "}
-                    <FaHourglassHalf style={{ paddingTop: 5, fontSize: 20 }} />
-                  </>
+                  order.status === "processing" ? (
+                    <>
+                      Processing{" "}
+                      <FaHourglassHalf
+                        style={{ paddingTop: 5, fontSize: 20 }}
+                      />
+                    </>
+                  ) : order.status === "served" ? (
+                    <>
+                      Served{" "}
+                      <FaCheckCircle style={{ paddingTop: 5, fontSize: 20 }} />
+                    </>
+                  ) : (
+                    order.status
+                  )
                 ) : (
                   order.status
                 )}
