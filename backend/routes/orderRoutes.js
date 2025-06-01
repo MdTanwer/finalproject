@@ -17,4 +17,7 @@ router.delete("/", orderController.deleteAllOrders);
 // Update only the status of an order
 router.patch("/:id/status", orderController.updateOrderStatus);
 
+// Update takeawayStatus of an order
+router.patch("/:id/takeaway-status", orderController.updateTakeawayStatus);
+
 module.exports = router;

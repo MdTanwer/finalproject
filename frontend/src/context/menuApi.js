@@ -85,3 +85,16 @@ export const updateTableStatus = async (tableId) => {
   if (!res.ok) throw new Error("Failed to update table status");
   return res.json();
 };
+
+export const updateTakeawayStatus = async (orderId, takeawayStatus) => {
+  const res = await fetch(
+    `http://localhost:5000/api/orders/${orderId}/takeaway-status`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ takeawayStatus }),
+    }
+  );
+  if (!res.ok) throw new Error("Failed to update takeaway status");
+  return res.json();
+};

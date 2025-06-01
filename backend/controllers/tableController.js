@@ -1,7 +1,7 @@
 const Table = require("../models/Table");
 
 // Get all tables
-exports.getTables = async (req, res) => {
+exports.getTables = async (req, res, next) => {
   try {
     let tables = await Table.find();
     // Sort by numeric part of name (e.g., 'Table 01', 'Table 02', ...)
@@ -12,12 +12,12 @@ exports.getTables = async (req, res) => {
     });
     res.json(tables);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(new Error(err.message));
   }
 };
 
 // Add a new table
-exports.addTable = async (req, res) => {
+exports.addTable = async (req, res, next) => {
   try {
     const { name, chairs } = req.body;
     const table = new Table({
@@ -27,29 +27,29 @@ exports.addTable = async (req, res) => {
     await table.save();
     res.status(201).json(table);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(new Error(err.message));
   }
 };
 
 // Delete a table
-exports.deleteTable = async (req, res) => {
+exports.deleteTable = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Table.findByIdAndDelete(id);
     res.json({ message: "Table deleted" });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(new Error(err.message));
   }
 };
 
 // Update a table's status
-exports.updateTableStatus = async (req, res) => {
+exports.updateTableStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
     // Find the table by id
     const table = await Table.findById(id);
     if (!table) {
-      return res.status(404).json({ error: "Table not found" });
+      return next(new Error("Table not found"));
     }
     // Only allow changing from 'available' to 'reserved'
     if (table.status === "available") {
@@ -58,11 +58,11 @@ exports.updateTableStatus = async (req, res) => {
       return res.json(table);
     } else {
       // If already reserved, do not allow changing back to available
-      return res
-        .status(400)
-        .json({ error: "Cannot change status from 'reserved' to 'available'" });
+      return next(
+        new Error("Cannot change status from 'reserved' to 'available'")
+      );
     }
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    next(new Error(err.message));
   }
 };

@@ -8,6 +8,7 @@ import {
   fetchChefs,
   addChef as addChefApi,
   updateOrderStatus as updateOrderStatusApi,
+  updateTakeawayStatus as updateTakeawayStatusApi,
 } from "./menuApi";
 
 // Create the context
@@ -183,6 +184,11 @@ export const ApiProvider = ({ children }) => {
     return updateOrderStatusApi(orderId, status);
   };
 
+  // Update takeaway status
+  const updateTakeawayStatus = async (orderId, takeawayStatus) => {
+    return updateTakeawayStatusApi(orderId, takeawayStatus);
+  };
+
   return (
     <ApiContext.Provider
       value={{
@@ -216,6 +222,7 @@ export const ApiProvider = ({ children }) => {
         getChefs,
         addChef,
         updateOrderStatus,
+        updateTakeawayStatus,
       }}
     >
       {children}

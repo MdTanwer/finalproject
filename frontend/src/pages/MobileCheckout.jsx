@@ -146,7 +146,7 @@ const MobileCheckout = () => {
       user: userDetails,
       deliveryAddress: orderType === "takeAway" ? deliveryAddress : undefined,
       deliveryTime: orderType === "dineIn" ? getDeliveryTime() : null,
-
+      status: orderType === "takeAway" ? "takeaway" : "processing",
       deliveryCharge: orderType === "takeAway" ? calculateDeliveryCharge() : 0,
       tax: calculateTaxes(),
       total: calculateTotal(),

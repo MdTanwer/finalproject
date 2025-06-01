@@ -1,27 +1,27 @@
 const MenuItem = require("../models/MenuItem");
 
 // Get all products
-exports.getAllProducts = async (req, res) => {
+exports.getAllProducts = async (req, res, next) => {
   try {
     const products = await MenuItem.find();
     res.json(products);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch products" });
+    next(new Error("Failed to fetch products: " + err.message));
   }
 };
 
 // Delete a product by ID
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res, next) => {
   try {
     await MenuItem.findByIdAndDelete(req.params.id);
     res.json({ message: "Product deleted" });
   } catch (err) {
-    res.status(500).json({ error: "Failed to delete product" });
+    next(new Error("Failed to delete product: " + err.message));
   }
 };
 
 // Delete all products
-exports.deleteAllProducts = async (req, res) => {
+exports.deleteAllProducts = async (req, res, next) => {
   try {
     const result = await MenuItem.deleteMany();
     res.json({
@@ -29,12 +29,12 @@ exports.deleteAllProducts = async (req, res) => {
       deletedCount: result.deletedCount,
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to delete all products" });
+    next(new Error("Failed to delete all products: " + err.message));
   }
 };
 
 // Seed products
-exports.seedProducts = async (req, res) => {
+exports.seedProducts = async (req, res, next) => {
   try {
     const seedData = [
       // Pizza
@@ -164,6 +164,6 @@ exports.seedProducts = async (req, res) => {
     await MenuItem.insertMany(seedData);
     res.json({ message: "Products seeded" });
   } catch (err) {
-    res.status(500).json({ error: "Failed to seed products" });
+    next(new Error("Failed to seed products: " + err.message));
   }
 };

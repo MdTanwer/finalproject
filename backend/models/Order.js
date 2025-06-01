@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
   ],
   orderType: {
     type: String,
-    enum: ["dineIn", "takeAway ", "done"],
+    enum: ["dineIn", "takeAway", "done"],
     required: true,
   },
   specialInstructions: { type: String },
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema({
   tableName: { type: String, default: "Table 01" },
   status: {
     type: String,
-    enum: ["processing", "served"],
+    enum: ["processing", "served", "takeaway"],
     default: "processing",
   },
   takeawayStatus: {

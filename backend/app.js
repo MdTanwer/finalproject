@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const errorHandler = require("./utils/errorHandler");
 
 const app = express();
 
@@ -22,11 +23,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Table routes
 app.use("/api/tables", require("./routes/tableRoutes"));
 // Menu item routes
-app.use("/api/menu-items", require("./routes/menuRoutes"));
+app.use("/api/products", require("./routes/productRoutes"));
 // Order routes
 app.use("/api/orders", require("./routes/orderRoutes"));
 // Chef routes
 app.use("/api/chefs", require("./routes/chefRoutes"));
+
+// Custom error handler (should be last middleware)
+app.use(errorHandler);
 
 // Basic route
 app.get("/", (req, res) => {

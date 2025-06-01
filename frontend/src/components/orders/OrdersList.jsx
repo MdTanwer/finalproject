@@ -1,11 +1,18 @@
 import "../../styles/components/orders/OrdersList.css";
-import { FaUtensils } from "react-icons/fa";
+import { FaUtensils, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
 import { useApi } from "../../context/ApiContext";
 import { useEffect, useState, useRef } from "react";
 
-const OrdersList = () => {
-  const { orders, ordersLoading, ordersError, getOrders, updateOrderStatus } =
-    useApi();
+const OrdersList = ({ orders: propOrders }) => {
+  const {
+    orders: contextOrders,
+    ordersLoading,
+    ordersError,
+    getOrders,
+    updateOrderStatus,
+    updateTakeawayStatus,
+  } = useApi();
+  const orders = propOrders || contextOrders;
   const [timers, setTimers] = useState({});
   const intervalRef = useRef();
 
@@ -14,11 +21,21 @@ const OrdersList = () => {
     if (!orders) return;
     const newTimers = {};
     orders.forEach((order) => {
-      if (order.status === "processing" && order.deliveryTime) {
+      if (order.status === "processing") {
         // Calculate remaining seconds
         const created = new Date(order.createdAt).getTime();
+
         const now = Date.now();
-        const deliveryMs = Number(order.deliveryTime) * 60 * 1000;
+        // const deliveryMnt = parseInt(
+        //   order.deliveryTime.match(/\d+/)?.[0] || "0"
+        // );
+
+        const deliveryMnt = order.deliveryTime
+          ? parseInt(order.deliveryTime.match(/\d+/)?.[0] || "0")
+          : 0;
+
+        const deliveryMs = deliveryMnt * 60 * 1000;
+
         const elapsed = now - created;
         const remaining = Math.max(
           0,
@@ -59,6 +76,11 @@ const OrdersList = () => {
     getOrders();
   };
 
+  useEffect(() => {
+    getOrders();
+    // eslint-disable-next-line
+  }, []);
+
   if (ordersLoading) return <div>Loading orders...</div>;
   if (ordersError) return <div>Error loading orders: {ordersError}</div>;
   if (!orders || orders.length === 0) return <div>No orders found.</div>;
@@ -95,32 +117,48 @@ const OrdersList = () => {
                       : "N/A"}
                   </span>
                 </div>
-                <div className="order-card-table-id">
-                  {order.tableName || "Table N/A"}
-                </div>
+                {order.orderType === "dineIn" && (
+                  <div className="order-card-table-id">{order.tableName}</div>
+                )}
                 <div className="order-card-time">
                   {order.createdAt
-                    ? new Date(order.createdAt).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })
+                    ? new Date(order.createdAt)
+                        .toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })
+                        .toUpperCase()
                     : ""}
                 </div>
                 {/* Show delivery time for ongoing orders */}
               </div>
               <div>
-                {" "}
                 <div className="order-card-badge">
-                  <h5>
+                  <div className="order-type-badge">
                     {order.orderType === "dineIn"
+                      ? "Dine In"
+                      : order.orderType === "takeAway"
+                      ? "Take Away"
+                      : order.orderType === "done"
+                      ? "Done"
+                      : order.orderType}
+                  </div>
+                  <h5>
+                    {order.orderType === "dineIn" &&
+                    order.status === "processing"
                       ? `Ongoing (${formatTime(
                           timers[order._id] ?? order.deliveryTime * 60
                         )})`
-                      : order.orderType === "served"
+                      : order.status === "served"
                       ? "Served"
                       : order.orderType === "takeAway"
-                      ? "TakeAway"
-                      : "Server"}
+                      ? order.takeawayStatus === "picked up"
+                        ? "Picked Up"
+                        : "Not Picked Up"
+                      : order.orderType === "done"
+                      ? "Done"
+                      : ""}
                   </h5>
                 </div>
               </div>
@@ -142,15 +180,35 @@ const OrdersList = () => {
             </ul>
           </div>
           <div className="order-card-footer">
-            <button className="order-card-btn">
-              {order.status === "processing"
-                ? "Processing"
-                : order.status === "served"
-                ? "Order Done"
-                : order.status === "notPickedUp"
-                ? "Not Picked Up"
-                : order.status}
-            </button>
+            {order.orderType === "takeAway" ? (
+              <select
+                className="order-card-btn"
+                value={order.takeawayStatus}
+                onChange={async (e) => {
+                  await updateTakeawayStatus(order._id, e.target.value);
+                  getOrders();
+                }}
+              >
+                <option value="not picked up">Not Picked Up</option>
+                <option value="picked up">Picked Up</option>
+              </select>
+            ) : (
+              <button className="order-card-btn">
+                {order.orderType === "done" ? (
+                  <>
+                    Order Done{" "}
+                    <FaCheckCircle style={{ paddingTop: 5, fontSize: 20 }} />
+                  </>
+                ) : order.orderType === "dineIn" ? (
+                  <>
+                    Processing{" "}
+                    <FaHourglassHalf style={{ paddingTop: 5, fontSize: 20 }} />
+                  </>
+                ) : (
+                  order.status
+                )}
+              </button>
+            )}
           </div>
         </div>
       ))}

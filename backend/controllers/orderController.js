@@ -3,12 +3,12 @@ const Table = require("../models/Table");
 const Chef = require("../models/Chef");
 
 // Create a new order
-exports.createOrder = async (req, res) => {
+exports.createOrder = async (req, res, next) => {
   try {
     // Find the chef with the minimum orderTaken
     const chef = await Chef.findOne().sort({ orderTaken: 1 });
     if (!chef) {
-      return res.status(400).json({ error: "No chefs available" });
+      return next(new Error("No chefs available"));
     }
     chef.orderTaken += 1;
     await chef.save();
@@ -19,7 +19,6 @@ exports.createOrder = async (req, res) => {
 
     const order = new Order({
       ...req.body,
-
       orderId: nextOrderId,
       chef: chef._id, // Assign chef
     });
@@ -27,37 +26,35 @@ exports.createOrder = async (req, res) => {
     await order.save();
     res.status(201).json(order);
   } catch (err) {
-    res
-      .status(400)
-      .json({ error: "Failed to create order", details: err.message });
+    next(new Error("Failed to create order: " + err.message));
   }
 };
 
 // Get all orders
-exports.getOrders = async (req, res) => {
+exports.getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find().populate("items.menuItem");
     res.json(orders);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch orders" });
+    next(new Error("Failed to fetch orders: " + err.message));
   }
 };
 
 // Get order by ID
-exports.getOrderById = async (req, res) => {
+exports.getOrderById = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id).populate(
       "items.menuItem"
     );
-    if (!order) return res.status(404).json({ error: "Order not found" });
+    if (!order) return next(new Error("Order not found"));
     res.json(order);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch order" });
+    next(new Error("Failed to fetch order: " + err.message));
   }
 };
 
 // Delete all orders
-exports.deleteAllOrders = async (req, res) => {
+exports.deleteAllOrders = async (req, res, next) => {
   try {
     const result = await Order.deleteMany();
     res.json({
@@ -65,12 +62,12 @@ exports.deleteAllOrders = async (req, res) => {
       deletedCount: result.deletedCount,
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to delete all orders" });
+    next(new Error("Failed to delete all orders: " + err.message));
   }
 };
 
 // Update only the status of an order by ID
-exports.updateOrderStatus = async (req, res) => {
+exports.updateOrderStatus = async (req, res, next) => {
   try {
     const { status } = req.body;
     const order = await Order.findByIdAndUpdate(
@@ -78,11 +75,25 @@ exports.updateOrderStatus = async (req, res) => {
       { status },
       { new: true }
     );
-    if (!order) return res.status(404).json({ error: "Order not found" });
+    if (!order) return next(new Error("Order not found"));
     res.json(order);
   } catch (err) {
-    res
-      .status(400)
-      .json({ error: "Failed to update order status", details: err.message });
+    next(new Error("Failed to update order status: " + err.message));
+  }
+};
+
+// Update takeawayStatus of an order by ID
+exports.updateTakeawayStatus = async (req, res, next) => {
+  try {
+    const { takeawayStatus } = req.body;
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      { takeawayStatus },
+      { new: true }
+    );
+    if (!order) return next(new Error("Order not found"));
+    res.json(order);
+  } catch (err) {
+    next(new Error("Failed to update takeaway status: " + err.message));
   }
 };

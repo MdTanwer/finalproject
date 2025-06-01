@@ -1,17 +1,17 @@
 const Chef = require("../models/Chef");
 
 // Get all chefs
-exports.getChefs = async (req, res) => {
+exports.getChefs = async (req, res, next) => {
   try {
     const chefs = await Chef.find();
     res.json(chefs);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch chefs" });
+    next(new Error("Failed to fetch chefs: " + err.message));
   }
 };
 
 // Add a new chef
-exports.createChef = async (req, res) => {
+exports.createChef = async (req, res, next) => {
   const chefs = [
     { name: "Manesh", orderTaken: 3 },
     { name: "Pritam", orderTaken: 7 },
@@ -23,6 +23,6 @@ exports.createChef = async (req, res) => {
     await Chef.insertMany(chefs);
     res.json({ message: "chefs seeded" });
   } catch (err) {
-    res.status(400).json({ error: "Failed to add chef", details: err.message });
+    next(new Error("Failed to add chef: " + err.message));
   }
 };

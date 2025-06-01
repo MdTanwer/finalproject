@@ -13,7 +13,6 @@
   border-radius: 20px;
   margin-bottom: 0em;
   margin: 20px;
-  border: 1px solid red;
 }
 
 .order-heading {
@@ -39,6 +38,7 @@
 .order-card.processing {
   border-color: #fdddb6;
   background: #fdddb6;
+  border-radius: 20px;
 }
 .order-card.done {
   border-color: #b9f1c3;
@@ -47,10 +47,12 @@
 .order-card.takeaway {
   border-color: #cde1ea;
   background: #cde1ea;
+  border-radius: 20px;
 }
 .order-card.served {
   border-color: #a7f3d0;
   background: #e6fff3;
+  border-radius: 20px;
 }
 
 .order-card-header {
@@ -91,7 +93,11 @@
   font-size: 13px;
   font-weight: 600;
   border-radius: 16px;
-  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
   margin-left: auto;
   background: #fff;
   color: #222;
@@ -164,6 +170,7 @@
   font-weight: 700;
   border-radius: 16px;
   padding: 6px 18px;
+  padding-bottom: 8px;
   border: none;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
