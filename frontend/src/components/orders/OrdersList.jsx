@@ -149,7 +149,7 @@ const OrdersList = ({ orders: propOrders }) => {
                     order.status === "processing"
                       ? `Ongoing ${formatTime(
                           timers[order._id] ?? order.deliveryTime * 60
-                        )} minutes`
+                        )} Mins`
                       : order.status === "served"
                       ? "Served"
                       : order.orderType === "takeAway"
