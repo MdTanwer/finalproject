@@ -60,7 +60,7 @@ export const addChef = async (chefData) => {
 
 export const updateOrderStatus = async (orderId, status) => {
   const res = await fetch(
-    `http://localhost:5000/api/orders/${orderId}/status`,
+    `https://finalproject-8lp2.onrender.com/api/orders/${orderId}/status`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -72,23 +72,26 @@ export const updateOrderStatus = async (orderId, status) => {
 };
 
 export const fetchTables = async () => {
-  const res = await fetch("http://localhost:5000/api/tables");
+  const res = await fetch("https://finalproject-8lp2.onrender.com/api/tables");
   if (!res.ok) throw new Error("Failed to fetch tables");
   return res.json();
 };
 
 export const updateTableStatus = async (tableId) => {
-  const res = await fetch(`http://localhost:5000/api/tables/${tableId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-  });
+  const res = await fetch(
+    `https://finalproject-8lp2.onrender.com/api/tables/${tableId}`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
   if (!res.ok) throw new Error("Failed to update table status");
   return res.json();
 };
 
 export const updateTakeawayStatus = async (orderId, takeawayStatus) => {
   const res = await fetch(
-    `http://localhost:5000/api/orders/${orderId}/takeaway-status`,
+    `https://finalproject-8lp2.onrender.com/api/orders/${orderId}/takeaway-status`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
