@@ -90,6 +90,74 @@ backend/
 └── utils/             # Helper functions
 ```
 
+## 📑 Pages & Features
+
+### 1. Dashboard (`/`)
+
+- **Purpose:** Main administrative interface
+- **Key Features:**
+  - Real-time order statistics
+  - Revenue tracking and charts
+  - Table occupancy overview
+  - Chef workload monitoring
+  - Quick access to all management functions
+- **Access:** Admin/Staff only
+- **Layout:** Full desktop layout with sidebar
+
+### 2. Table Management (`/tables`)
+
+- **Purpose:** Table status and reservation control
+- **Key Features:**
+  - Interactive table grid layout
+  - Real-time status updates
+  - Table reservation management
+  - Seating capacity tracking
+  - Quick status toggle
+- **Access:** Admin/Staff only
+- **Layout:** Full desktop layout with sidebar
+
+### 3. Order Management (`/orders`)
+
+- **Purpose:** Comprehensive order tracking and management
+- **Key Features:**
+  - Active orders list
+  - Order status updates
+  - Chef assignments
+  - Order history
+  - Filtering and search
+  - Order details view
+- **Access:** Admin/Staff only
+- **Layout:** Full desktop layout with sidebar
+
+### 4. Mobile Menu (`/order-menu`)
+
+- **Purpose:** Customer-facing menu interface
+- **Key Features:**
+  - Category-based menu navigation
+  - Item details and pricing
+  - Add to cart functionality
+  - Quantity selection
+  - Special instructions
+  - Real-time cart updates
+- **Access:** Customers
+- **Layout:** Mobile-optimized interface
+- **Note:** Designed specifically for mobile devices
+
+### 5. Mobile Checkout (`/mobile-checkout`)
+
+- **Purpose:** Order completion and payment
+- **Key Features:**
+  - Order summary
+  - Customer information collection
+  - Delivery/pickup options
+  - Special instructions
+  - Payment method selection
+  - Order confirmation
+  - Real-time validation
+- **Access:** Customers
+- **Layout:** Mobile-optimized interface
+- **Note:** Designed specifically for mobile devices
+
 ## 🚀 Getting Started
 
 ### Prerequisites
