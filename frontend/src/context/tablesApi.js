@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api/tables";
+const API_URL = "https://finalproject-8lp2.onrender.com/api/tables";
 
 export const fetchTables = async () => {
   const res = await fetch(API_URL);

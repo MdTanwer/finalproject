@@ -1,6 +1,6 @@
-const API_URL = "http://localhost:5000/api/menu-items";
-const ORDER_URL = "http://localhost:5000/api/orders";
-const CHEF_URL = "http://localhost:5000/api/chefs";
+const API_URL = "https://finalproject-8lp2.onrender.com/api/menu-items";
+const ORDER_URL = "https://finalproject-8lp2.onrender.com/api/orders";
+const CHEF_URL = "https://finalproject-8lp2.onrender.com/api/chefs";
 
 export const fetchMenuItems = async () => {
   const res = await fetch(API_URL);
